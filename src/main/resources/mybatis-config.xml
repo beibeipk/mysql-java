@@ -40,7 +40,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="user.xml"/>
-        <mapper resource="group.xml"/>
+        <mapper resource="item.xml"/>
     </mappers>
 </configuration>

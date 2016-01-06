@@ -27,7 +27,7 @@ public class UsersRepositoryTest {
     private UsersRepository usersRepository;
     private SqlSession session;
 
-    @Before
+    @BeforeHashMap items = new HashMap();
     public void setUp() throws IOException, SQLException {
         String resource = "mybatis-config.xml";
         
