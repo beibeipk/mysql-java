@@ -51,11 +51,9 @@ import java.util.*;
 
 @Path("items")
 public class ItemsResource {
-
     HashMap promotion = new HashMap();
     List promotions = new ArrayList();
     List promotions_barcode = new ArrayList();
-
     @Inject
     private ItemsRepository itemsRepository;
     @Path("/allitems")
@@ -69,58 +67,23 @@ public class ItemsResource {
     @Path("/promotions")
     @GET
     @Produces(MediaType.APPLICATION_JSON+";charset=utf8")
-    public Response get_promotions() {
-        List<Promotions> promotions = itemsRepository.findPromotions();
-        return Response.status(200).entity(promotions).build();
-    }
-}
+    public List get_promotions() {
 
-//    HashMap items0 = new HashMap();
-//    HashMap items1 = new HashMap();
-//    HashMap items2 = new HashMap();
-//    HashMap items3 = new HashMap();
-//    HashMap items4 = new HashMap();
-//    HashMap items5 = new HashMap();
-//    List allitems = new ArrayList();
-//    @Path("/allitems")
+        promotions_barcode.add("ITEM000000");
+        promotions_barcode.add("ITEM000001");
+        promotions_barcode.add("ITEM000005");
+        promotion.put("type", "BUY_TWO_GET_ONE_FREE");
+        promotion.put("barcodes", promotions_barcode);
+        promotions.add(promotion);
+
+        return promotions;
+    }
+
+//    @Path("/promotions")
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON+";charset=utf8")
-//    public List get_allitems(){
-//
-//        items0.put("barcode", "ITEM000000");
-//        items0.put("name", "可口可乐");
-//        items0.put("unit", "瓶");
-//        items0.put("price", 3.00);
-//        allitems.add(items0);
-//
-//        items1.put("barcode", "ITEM000001");
-//        items1.put("name", "雪碧");
-//        items1.put("unit", "瓶");
-//        items1.put("price", 3.00);
-//        allitems.add(items1);
-//
-//        items2.put("barcode", "ITEM000002");
-//        items2.put("name", "苹果");
-//        items2.put("unit", "斤");
-//        items2.put("price", 5.50);
-//        allitems.add(items2);
-//
-//        items3.put("barcode", "ITEM000003");
-//        items3.put("name", "荔枝");
-//        items3.put("unit", "斤");
-//        items3.put("price", 15.00);
-//        allitems.add(items3);
-//
-//        items4.put("barcode", "ITEM000004");
-//        items4.put("name", "电池");
-//        items4.put("unit", "个");
-//        items4.put("price", 2.00);
-//        allitems.add(items4);
-//
-//        items5.put("barcode", "ITEM000005");
-//        items5.put("name", "方便面");
-//        items5.put("unit", "袋");
-//        items5.put("price", 4.00);
-//        allitems.add(items5);
-//        return allitems;
+//    public Response get_promotions() {
+//        List<Promotions> promotions = itemsRepository.findPromotions();
+//        return Response.status(500).entity(promotions).build();
 //    }
+}

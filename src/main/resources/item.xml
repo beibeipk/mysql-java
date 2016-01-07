@@ -12,17 +12,20 @@
         <result property="price" column="price" />
     </resultMap>
 
-    <resultMap id="PromotionMapper" type="Promotions">
-        <id property="type" column="type" />
-        <result property="barcode" column="barcode" />
-    </resultMap>
-
+    <!--<resultMap id="ItemsBarcodeMapper" type="Items">-->
+        <!--<id property="barcode" column="barcode" />-->
+    <!--</resultMap>-->
 
     <select id="findItems" resultMap="ItemMapper">
         select * from Allitems;
     </select>
 
-    <select id="findPromotions" resultMap="PromotionMapper">
-        select * from Promotions;
-    </select>
+    <!--<select id="findItemsBarcode" resultMap="ItemsBarcodeMapper">-->
+        <!--select barcode from Allitems;-->
+    <!--</select>-->
+
+    <!--<select id="getBarcodeByPromotions" resultMap="ItemsBarcodeMapper">-->
+        <!--<include refid="selectPromotionsItemsBarcode" />-->
+        <!--select barcode form Allitems where promotions=#{type};-->
+    <!--</select>-->
 </mapper>
