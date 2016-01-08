@@ -12,6 +12,10 @@
         <result property="price" column="price" />
     </resultMap>
 
+    <resultMap id="InputsMapper" type="String">
+        <id column="barcode" />
+    </resultMap>
+
     <!--<resultMap id="ItemsBarcodeMapper" type="Items">-->
         <!--<id property="barcode" column="barcode" />-->
     <!--</resultMap>-->
@@ -20,6 +24,13 @@
         select * from Allitems;
     </select>
 
+    <insert id="createInputsBarcode">
+        insert into inputs(barcode) values(#{inputs});
+    </insert>
+
+    <select id="findInputsBarcode" resultMap="InputsMapper">
+        select * from inputs;
+    </select>
     <!--<select id="findItemsBarcode" resultMap="ItemsBarcodeMapper">-->
         <!--select barcode from Allitems;-->
     <!--</select>-->
