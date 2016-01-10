@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ItemsRepository{
-    List<Items> findItems();
-//    List<Promotions> findPromotions();
     void createInputsBarcode(Map newInstanceBean);
-    List<String> findInputsBarcode();
+    List<ItemsInfo> findInputsInfo();
+    List<ItemsInfo> findGiftInfo();
+    Double caculateInputs();
+    Double caculateGifts();
 }

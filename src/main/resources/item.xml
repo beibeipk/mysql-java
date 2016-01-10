@@ -5,38 +5,64 @@
 
 <mapper namespace="com.thoughtworks.learning.core.ItemsRepository" >
 
-    <resultMap id="ItemMapper" type="Items">
+    <resultMap id="ItemsInfoMapper" type="ItemsInfo">
         <id property="barcode" column="barcode" />
         <result property="name" column="name" />
         <result property="unit" column="unit" />
         <result property="price" column="price" />
+        <result property="count" column="count" />
+        <result property="total" column="total" />
     </resultMap>
 
-    <resultMap id="InputsMapper" type="String">
-        <id column="barcode" />
+    <resultMap id="CaculateMapper" type="Double">
+        <result column="total" />
     </resultMap>
 
-    <!--<resultMap id="ItemsBarcodeMapper" type="Items">-->
-        <!--<id property="barcode" column="barcode" />-->
-    <!--</resultMap>-->
+    <select id="findInputsInfo" resultMap="ItemsInfoMapper">
+        select Items.*,
+        Items.price*Items.count as total
+        from (
+          select Allitems.*,
+          count(inputs.barcode) as count from Allitems, inputs
+          where Allitems.barcode=inputs.barcode
+          group by inputs.barcode)Items;
+    </select>
 
-    <select id="findItems" resultMap="ItemMapper">
-        select * from Allitems;
+    <select id="findGiftInfo" resultMap="ItemsInfoMapper">
+        select PromotionsItems.*,
+        floor(PromotionsItems.count/3) as giftCount,
+        PromotionsItems.price*floor(PromotionsItems.count/3) as total
+        from promotions,
+        (select Allitems.*,
+        count(inputs.barcode) as count from Allitems, inputs
+        where Allitems.barcode=inputs.barcode
+        group by inputs.barcode)PromotionsItems
+        where PromotionsItems.barcode=promotions.barcode
+        and PromotionsItems.count>=3
+    </select>
+
+    <select id="caculateInputs" resultMap="CaculateMapper">
+        select Sum(Items.price*Items.count) as total
+        from (
+          select Allitems.*,
+          count(inputs.barcode) as count from Allitems, inputs
+          where Allitems.barcode=inputs.barcode
+          group by inputs.barcode)Items;
+    </select>
+
+    <select id="caculateGifts" resultMap="CaculateMapper">
+        select Sum(PromotionsItems.price*floor(PromotionsItems.count/3)) as total
+        from promotions,
+        (select Allitems.*,
+        count(inputs.barcode) as count from Allitems, inputs
+        where Allitems.barcode=inputs.barcode
+        group by inputs.barcode)PromotionsItems
+        where PromotionsItems.barcode=promotions.barcode
+        and PromotionsItems.count>=3
     </select>
 
     <insert id="createInputsBarcode">
         insert into inputs(barcode) values(#{inputs});
     </insert>
 
-    <select id="findInputsBarcode" resultMap="InputsMapper">
-        select * from inputs;
-    </select>
-    <!--<select id="findItemsBarcode" resultMap="ItemsBarcodeMapper">-->
-        <!--select barcode from Allitems;-->
-    <!--</select>-->
-
-    <!--<select id="getBarcodeByPromotions" resultMap="ItemsBarcodeMapper">-->
-        <!--<include refid="selectPromotionsItemsBarcode" />-->
-        <!--select barcode form Allitems where promotions=#{type};-->
-    <!--</select>-->
 </mapper>
